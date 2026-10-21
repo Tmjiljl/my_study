@@ -3,8 +3,16 @@ export function todayISO(date = new Date()) {
   const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
   return local.toISOString().slice(0, 10);
 }
+function isValidISODate(iso) {
+  if (typeof iso !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return false;
+  const [year, month, day] = iso.split('-').map(Number);
+  if (year < 1 || month < 1 || month > 12 || day < 1) return false;
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day <= days[month - 1];
+}
 export function addDays(iso, days) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) throw new TypeError('Invalid ISO date');
+  if (!isValidISODate(iso)) throw new TypeError('Invalid ISO date');
   const date = new Date(`${iso}T12:00:00Z`);
   if (Number.isNaN(date.getTime())) throw new TypeError('Invalid date');
   date.setUTCDate(date.getUTCDate() + days);
@@ -45,11 +53,13 @@ export function validateCards(data) {
   const ids = new Set();
   return data.map(raw => {
     if (!raw || typeof raw !== 'object') throw new TypeError('Invalid card');
-    const card = createCard(raw, typeof raw.createdAt === 'string' ? raw.createdAt : todayISO());
+    const createdAt = isValidISODate(raw.createdAt) ? raw.createdAt : todayISO();
+    const card = createCard(raw, createdAt);
     if (ids.has(card.id)) throw new TypeError('Duplicate card ID');
     ids.add(card.id);
-    const due = typeof raw.due === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.due) ? raw.due : card.due;
-    const history = Array.isArray(raw.history) ? raw.history.filter(v => v && /^\d{4}-\d{2}-\d{2}$/.test(v.date) && VALID_RATINGS.has(v.rating)).slice(-200) : [];
+    if (raw.due !== undefined && !isValidISODate(raw.due)) throw new TypeError('Invalid due date in imported card');
+    const due = raw.due === undefined ? card.due : raw.due;
+    const history = Array.isArray(raw.history) ? raw.history.filter(v => v && isValidISODate(v.date) && VALID_RATINGS.has(v.rating)).slice(-200) : [];
     return {...card, due, interval: Number.isSafeInteger(raw.interval) && raw.interval >= 0 ? raw.interval : 0,
       streak: Number.isSafeInteger(raw.streak) && raw.streak >= 0 ? raw.streak : 0,
       reviews: Number.isSafeInteger(raw.reviews) && raw.reviews >= 0 ? raw.reviews : 0,
