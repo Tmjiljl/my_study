@@ -1,0 +1,13 @@
+{
+  "name": "recallkit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Open-source local-first spaced review tool for learners",
+  "scripts": {
+    "test": "node --test",
+    "start": "python3 -m http.server 8080"
+  },
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}

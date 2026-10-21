@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0c1423">
+  <meta name="description" content="RecallKit 是一款开源、离线优先的错题复习与间隔回顾工具。">
+  <title>RecallKit — 把不会的变成会的</title>
+  <link rel="stylesheet" href="./src/styles.css">
+  <script type="module" src="./src/app.mjs"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" aria-label="主导航">
+    <div class="identity"><span class="logo" aria-hidden="true">R<span>·</span></span><div><strong>RecallKit</strong><small>Open-source learning</small></div></div>
+    <nav><button data-view="dashboard" class="nav active" type="button"><span>◫</span> 学习概览</button><button data-view="library" class="nav" type="button"><span>▤</span> 我的卡片</button><button data-view="review" class="nav" type="button"><span>✦</span> 开始复习 <b id="navDue">0</b></button></nav>
+    <div class="sidebar-foot"><div class="privacy-icon">◈</div><strong>数据属于你</strong><p>离线可用 · 默认本地存储</p><a href="https://github.com" target="_blank" rel="noopener noreferrer">开放源代码的学习方式 ↗</a></div>
+  </aside>
+  <main>
+    <header class="topbar"><div class="crumb">WORKSPACE <span>/</span> <span id="currentView">学习概览</span></div><div class="top-actions"><span class="local-pill"><i></i> LOCAL FIRST</span><button id="addButton" class="primary small" type="button">＋ 新建卡片</button></div></header>
+    <div class="content">
+      <section id="dashboardView" class="view">
+        <div class="hero"><div><div class="eyebrow">REVIEW WHAT MATTERS</div><h1>学过的知识，<br><em>值得真正记住。</em></h1><p>记录困难，安排复习，让每一次重新理解都有迹可循。</p><button id="reviewHero" class="primary" type="button">开始今日复习 <span aria-hidden="true">↗</span></button></div><div class="hero-art" aria-hidden="true"><div class="orbit o1"></div><div class="orbit o2"></div><div class="orb">R<span>✓</span></div><span class="spark s1">✦</span><span class="spark s2">✳</span><span class="spark s3">✦</span></div></div>
+        <div class="section-line"><h2>学习仪表盘</h2><span id="todayLabel"></span></div>
+        <div class="stats"><article class="stat"><div class="stat-top">今日待复习 <span>↗</span></div><div class="stat-number" id="statDue">0</div><div class="stat-detail">按到期日期安排</div></article><article class="stat"><div class="stat-top">知识卡片 <span>▤</span></div><div class="stat-number" id="statTotal">0</div><div class="stat-detail">属于你的知识库</div></article><article class="stat"><div class="stat-top">近七日复习 <span>◷</span></div><div class="stat-number" id="statWeek">0</div><div class="stat-detail">累计完成次数</div></article><article class="stat"><div class="stat-top">连续答对 3 次以上 <span>✦</span></div><div class="stat-number" id="statStrong">0</div><div class="stat-detail">逐渐稳定的知识点</div></article></div>
+        <div class="two-col"><section class="panel"><div class="panel-heading"><div><div class="eyebrow">UP NEXT</div><h2>等待回顾</h2></div><button class="link-button" data-go="library" type="button">查看全部 →</button></div><div id="duePreview"></div></section><section class="panel side-panel"><div class="panel-heading"><div><div class="eyebrow">YOUR SYSTEM</div><h2>适合长期坚持的学习方法</h2></div></div><div class="tip"><div class="tip-icon">01</div><div><b>记录真实困难</b><p>用自己的语言写下问题和完整答案。</p></div></div><div class="tip"><div class="tip-icon">02</div><div><b>及时回顾</b><p>根据答题情况安排下次复习，而非死记日期。</p></div></div><div class="tip"><div class="tip-icon">03</div><div><b>保留成长轨迹</b><p>全部数据可导出，不被特定平台绑定。</p></div></div><button id="demoButton" class="secondary wide" type="button">导入演示卡片</button></section></div>
+      </section>
+      <section id="libraryView" class="view hidden"><div class="page-title"><div><div class="eyebrow">KNOWLEDGE BASE</div><h1>我的知识卡片</h1><p>把不会的、易错的、有价值的问题集中管理。</p></div><button id="libraryAdd" class="primary" type="button">＋ 添加新卡片</button></div><div class="toolbar"><label for="search" class="search-wrap"><span>⌕</span><input id="search" placeholder="搜索问题、学科或答案" autocomplete="off"></label><select id="filter" aria-label="筛选学科"><option value="all">全部学科</option></select></div><div class="library-meta" id="libraryMeta"></div><div id="libraryList" class="card-list"></div><div class="data-toolbar"><button id="exportButton" class="secondary" type="button">↓ 导出数据 JSON</button><label class="secondary upload">↑ 导入数据 JSON<input id="importFile" type="file" accept="application/json,.json" hidden></label></div></section>
+      <section id="reviewView" class="view hidden"><div class="page-title"><div><div class="eyebrow">FOCUS SESSION</div><h1>今日复习</h1><p>先回想，再看答案。根据真实掌握程度选择评级。</p></div></div><div id="reviewRoot"></div></section>
+    </div>
+    <footer>RECALLKIT <span>·</span> BUILT FOR LEARNERS, BY LEARNERS <span>·</span> NO ACCOUNT REQUIRED</footer>
+  </main>
+</div>
+<dialog id="addDialog"><form id="cardForm" method="dialog"><div class="dialog-head"><div><div class="eyebrow">CAPTURE KNOWLEDGE</div><h2>新建知识卡片</h2></div><button id="closeDialog" class="icon-button" type="button" aria-label="关闭">×</button></div><label>所属学科<input id="subject" name="subject" maxlength="60" required placeholder="例如：高等数学"></label><label>你需要记住的问题<textarea id="question" name="question" maxlength="600" rows="3" required placeholder="写下明确、可以独立回答的问题"></textarea></label><label>答案或思路<textarea id="answer" name="answer" maxlength="4000" rows="5" required placeholder="用自己的话解释关键逻辑与易错点"></textarea></label><div class="dialog-actions"><button id="cancelDialog" type="button" class="secondary">取消</button><button type="submit" class="primary">保存卡片</button></div></form></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
