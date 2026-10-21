@@ -10,3 +10,21 @@ test('month transitions handled correctly',()=>assert.equal(addDays('2026-12-30'
 test('due cards are ordered and filtered',()=>{const x={...base(),id:'other_123',due:'2026-10-23'};assert.equal(dueCards([x,base()],'2026-10-22').length,1);});
 test('validate imported cards and reject duplicates',()=>{assert.equal(validateCards([base()]).length,1);assert.throws(()=>validateCards([base(),base()]),/Duplicate/);});
 test('reject malformed input and invalid ratings',()=>{assert.throws(()=>createCard({id:'sample_123',subject:'',question:'Q',answer:'A'}));assert.throws(()=>scheduleReview(base(),'unknown'));});
+
+
+test('reject impossible imported due dates and allow leap days',()=>{
+  const invalid=['2026-02-29','2026-04-31','2026-13-01','0000-01-01','no-date'];
+  for(const due of invalid) assert.throws(()=>validateCards([{...base(),due}]),/Invalid due date/);
+  assert.equal(validateCards([{...base(),due:'2028-02-29'}])[0].due,'2028-02-29');
+  assert.equal(addDays('2028-02-29',1),'2028-03-01');
+  assert.throws(()=>addDays('2026-02-29',1),/Invalid ISO date/);
+});
+
+test('missing due defaults to creation day and invalid history entries are skipped',()=>{
+  const card=base();
+  delete card.due;
+  card.history=[{date:'2026-02-29',rating:'good'},{date:'2026-10-22',rating:'hard'}];
+  const imported=validateCards([card])[0];
+  assert.equal(imported.due,'2026-10-22');
+  assert.deepEqual(imported.history,[{date:'2026-10-22',rating:'hard'}]);
+});
