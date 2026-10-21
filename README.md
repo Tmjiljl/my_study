@@ -1,6 +1,6 @@
 # RecallKit · Open-source study review
 
-**[Try RecallKit online](https://tmjiljl.github.io/my_study/)** · [Source code](./recallkit/) · [Report a bug](../../issues/new?template=bug_report.md) · [Suggest a feature](../../issues/new?template=feature_request.md)
+**[Try RecallKit online](https://tmjiljl.github.io/my_study/)** · [Source code](./recallkit/) · [Report a bug](https://github.com/Tmjiljl/my_study/issues/new?template=bug_report.md) · [Suggest a feature](https://github.com/Tmjiljl/my_study/issues/new?template=feature_request.md)
 
 RecallKit is a free, local-first review card app for students and lifelong learners. No account, database, or backend is required.
 
@@ -17,8 +17,8 @@ RecallKit is a free, local-first review card app for students and lifelong learn
 
 We welcome **genuine** bug reports, thoughtful feature proposals, accessibility feedback and pull requests.
 
-- [Bug report](../../issues/new?template=bug_report.md) · [功能建议](../../issues/new?template=feature_request.md)
-- [Open issues](../../issues) · [Pull requests](../../pulls)
+- [Bug report](https://github.com/Tmjiljl/my_study/issues/new?template=bug_report.md) · [功能建议](https://github.com/Tmjiljl/my_study/issues/new?template=feature_request.md)
+- [Open issues](https://github.com/Tmjiljl/my_study/issues) · [Pull requests](https://github.com/Tmjiljl/my_study/pulls)
 - [Contributing guide](./recallkit/CONTRIBUTING.md)
 - [Security and privacy](./recallkit/SECURITY.md)
 - [Roadmap and limitations](./recallkit/README.md#roadmap)
