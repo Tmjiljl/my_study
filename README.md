@@ -41,3 +41,29 @@ RecallKit v0.1.0 is an early MVP. It does **not** yet offer card editing, user a
 The application under `recallkit/` has its own **MIT license**; see [recallkit/LICENSE](./recallkit/LICENSE). The repository's root [LICENSE](./LICENSE) is separate. Do not assume they cover the same files.
 
 Maintained at [Tmjiljl/my_study](https://github.com/Tmjiljl/my_study). Community feedback and contributions are welcome; maintainers will document real work without manufacturing engagement metrics.
+
+## Study Hub · 考研学习管理系统
+
+This repository also contains a separate Study Hub source bundle. The screenshots below show **Study Hub**, not RecallKit. See [Study Hub documentation](./study-hub/README.md) and [live website](https://xilien-study-hub.glossymesa32.chatgpt.site). All screenshots use synthetic demo data.
+
+## 界面截图（示例数据）
+
+以下截图均取自 2026-10-30 的本地示例环境，使用虚构学习任务和演示账号，不代表真实用户的学习记录或成绩。
+
+### 学习概览
+
+集中查看今日任务、下一项学习内容和到期错题，区分计划用时与实际记录。
+
+![Study Hub 学习概览：今日任务、下一项学习内容与到期复测错题（示例数据）](./study-hub/docs/screenshots/study-overview.jpg)
+
+### 自选新学与复习词数
+
+分别选择每轮新学词数和复习词数，不固定每日数量；未选中的到期词继续保留。
+
+![Study Hub 英语单词：自选本次复习词数和新学词数（示例数据）](./study-hub/docs/screenshots/vocabulary-settings.jpg)
+
+### 单词回想与记忆反馈
+
+先主动回想，再查看释义；按“忘记、模糊、记得”反馈安排后续间隔复习。
+
+![Study Hub 单词卡片：音标、中文释义与忘记、模糊、记得三个反馈按钮（示例数据）](./study-hub/docs/screenshots/vocabulary-recall.jpg)
